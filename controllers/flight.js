@@ -16,12 +16,18 @@ function index(req, res) {
 }
 
 function newFlight(req, res) {
+    const newFlight = new Flight();
+    const defaultDeparts = newFlight.departs;
+    console.log(defaultDeparts.toISOString().slice(0, 10))
+
     res.render('flights/new', {
         title: "New Flight",
+        defaultDeparts: defaultDeparts.toISOString().slice(0, 10),
     })
 }
 
 function create(req, res) {
+
     for (const key in req.body) {
         //delete the property if the user doesn't input anything.
         if(req.body[key] === "") delete req.body[key]
