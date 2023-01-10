@@ -1,16 +1,16 @@
 import { Router } from 'express'
-import * as flightCtrl from '../controllers/flight.js'
+import * as flightsCtrl from '../controllers/flight.js'
 
 const router = Router()
 
 /* GET users listing. */
-router.get('/', flightCtrl.index)
-router.get('/new', flightCtrl.new)
-router.get('/:id', flightCtrl.show)
-router.get('/:id/update', flightCtrl.update)
-router.post('/', flightCtrl.create)
-router.delete('/:id', flightCtrl.delete)
-router.patch('/:id', flightCtrl.modify)
+router.get('/', flightsCtrl.index)
+router.get('/new', flightsCtrl.new)
+router.get('/:id', flightsCtrl.show)
+router.get('/:id/update', flightsCtrl.update)
+router.post('/', flightsCtrl.create)
+router.delete('/:id', flightsCtrl.delete)
+router.patch('/:id', flightsCtrl.modify)
 
 export {
   router
