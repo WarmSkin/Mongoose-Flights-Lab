@@ -23,7 +23,7 @@
                 <td><%= flight.airline %></td>
                 <td><%= flight.airport %></td>
                 <td><%= flight.flightNo %></td>
-                <td><%= flight.departs %></td>
+                <td><%= flight.departs.toISOString() %></td>
             </tr>
         </tbody>
     </table>
