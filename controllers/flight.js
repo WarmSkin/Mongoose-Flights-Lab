@@ -18,7 +18,6 @@ function index(req, res) {
 function newFlight(req, res) {
     const newFlight = new Flight();
     const defaultDeparts = newFlight.departs;
-    console.log(defaultDeparts.toISOString().slice(0, 10))
 
     res.render('flights/new', {
         title: "New Flight",
@@ -57,7 +56,7 @@ function show(req, res) {
     Flight.findById(req.params.id)
     .then(flight => {
         res.render('flights/show', {
-            title: "Flight Detail",
+            title: "Flight Details",
             flight: flight,
         })
     })
@@ -70,7 +69,6 @@ function show(req, res) {
 function update(req, res) {
     Flight.findById(req.params.id)
     .then(flight => {
-        console.log(flight.departs.toJSON().slice(0, 10))
         res.render('flights/update', {
             title: "Update Flight",
             flight: flight,
@@ -93,6 +91,45 @@ function modify(req, res) {
     })
 }
 
+function createTickets(req, res) {
+    Flight.findById(req.params.id)
+    .then(flight => {
+        flight.tickets.push(req.body)
+        flight.save()
+        .then(() => {
+            res.redirect(`/flights/${req.params.id}`)
+        })
+        .catch(error => {
+            console.log(error)
+            res.redirect(`/flights/${req.params.id}`)
+        })
+    })
+    .catch(error => {
+        console.log(error)
+        res.redirect(`/flights/${req.params.id}`)
+    })
+}
+
+function deleteTicket(req, res) {
+    console.log(req.params.id + " " + req.params.tIndex)
+    Flight.findById(req.params.id)
+    .then(flight => {
+        flight.tickets[+(req.params.tIndex)].remove()
+        flight.save()
+        .then(flight => {
+            res.redirect(`/flights/${req.params.id}`)
+        })
+        .catch(error => {
+            console.log(error)
+            res.redirect(`/flights/${req.params.id}`)
+        })
+    })
+    .catch(error => {
+        console.log(error)
+        res.redirect(`/flights/${req.params.id}`)
+    })
+}
+
 export {
     index,
     newFlight as new,
@@ -101,4 +138,6 @@ export {
     show,
     update,
     modify,
+    createTickets,
+    deleteTicket,
 }

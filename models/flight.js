@@ -2,6 +2,13 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
+const ticketSchema = new Schema({
+    seat: {type: String, match: /[A-F][1-9]\d?/},
+    price: {type: Number, min: 0}
+},{
+    timestamps: true
+})
+
 const flightSchema = new Schema({
     airline: {type: String, enum: ['American', 'Southwest', 'United']},
     airport: {type: String, enum: ['AUS', 'DFW', 'DEN', 'LAX', 'SAN'], default : 'DEN'},
@@ -9,13 +16,11 @@ const flightSchema = new Schema({
     departs: {type: Date,
          default: function() {
             const today = new Date();
-            console.log(today);
             const oneYearLater = today.getFullYear() + 1;
-            console.log(oneYearLater);
             today.setFullYear(oneYearLater);
             return today;
-         }}
-            //  "2024-01-09"},
+         }},
+    tickets: [ticketSchema],
 },{
     timestamps: true
 })

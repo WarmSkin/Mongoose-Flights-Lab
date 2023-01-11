@@ -7,15 +7,19 @@
     <table>
         <thead>
             <tr>
-                <th></th>
                 <th>Airline</th>
                 <th>FlightNo</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         <%# Oh hey, this is an ejs comment! It starts with a # %>
         <% flights.forEach(flight => { %>
             <tr>
+                <td><%= flight.airline %></td>
+                <td><%= flight.flightNo %></td>
+                <td><a href="/flights/<%= flight._id %>">Detail</a></td>
                 <td>
                     <form
                         action="/flights/<%= flight._id %>?_method=DELETE"
@@ -25,8 +29,6 @@
                         <button type="submit"> X </button>
                     </form>
                 </td>
-                <td><%= flight.airline %></td>
-                <td><a href="/flights/<%= flight._id %>"><%= flight.flightNo %></a></td>
             </tr>
         <% }) %>
         </tbody>

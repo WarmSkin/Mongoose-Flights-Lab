@@ -19,7 +19,7 @@
       <option value="SAN">SAN</option>
     </select>
     <label for="flightNo-input">FlightNo:</label>
-    <input type="number" name="flightNo" id="flightNo-input">
+    <input type="number" name="flightNo" id="flightNo-input" min="10", max="9999" placeholder="10 to 9999">
     <label for="departs">Departs:</label>
     <input type="date" name="departs" id="departs" value="<%= defaultDeparts %>">
     <button type="submit">Add Flight</button>
