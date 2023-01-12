@@ -1,5 +1,6 @@
 import { render } from "ejs"
 import { Flight } from "../models/flight.js"
+import { Meal } from "../models/meal.js"
 
 function index(req, res) {
     Flight.find({})
@@ -54,10 +55,19 @@ function deleteFlight(req, res) {
 
 function show(req, res) {
     Flight.findById(req.params.id)
+    .populate('meals')
     .then(flight => {
-        res.render('flights/show', {
-            title: "Flight Details",
-            flight: flight,
+        Meal.find({_id: {$nin: flight.meals}})
+        .then(meals => {
+            res.render('flights/show', {
+                title: "Flight Details",
+                flight: flight,
+                meals,
+            })
+        })
+        .catch(error => {
+            console.log(error)
+            res.redirect('/flights')
         })
     })
     .catch(error => {
@@ -111,7 +121,6 @@ function createTickets(req, res) {
 }
 
 function deleteTicket(req, res) {
-    console.log(req.params.id + " " + req.params.tIndex)
     Flight.findById(req.params.id)
     .then(flight => {
         flight.tickets[+(req.params.tIndex)].remove()
@@ -130,6 +139,25 @@ function deleteTicket(req, res) {
     })
 }
 
+function addToFlight(req, res) {
+    Flight.findById(req.params.id)
+    .then(flight => {
+        flight.meals.push(req.body.mealId)
+        flight.save()
+        .then(() => {
+            res.redirect(`/flights/${flight._id}`)
+        })
+        .catch(error => {
+            console.log(error)
+            res.redirect("/flights")
+        })
+    })
+    .catch(error => {
+        console.log(error)
+        res.redirect("/flights")
+    })
+}
+
 export {
     index,
     newFlight as new,
@@ -140,4 +168,5 @@ export {
     modify,
     createTickets,
     deleteTicket,
+    addToFlight,
 }

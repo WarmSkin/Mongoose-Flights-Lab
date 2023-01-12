@@ -15,7 +15,21 @@
         <div><%= flight.airport %></div>
         <div>Departs:</div>
         <div><%= flight.departs.toISOString().slice(0, 10) %></div>
+        <div>Meals:</div>
+        <ul>
+            <% flight.meals.forEach(meal => { %>
+                <li><%= meal.name %></li>
+            <% }) %>
+        </ul>
     </section>
+    <form id="add-meal-to-flight" action="/flights/<%= flight._id %>/meals" method="POST">
+        <select name="mealId">
+        <% meals.forEach(meal => { %>
+            <option value="<%= meal._id %>"><%= meal.name %></option>
+        <% }) %>
+        </select>
+        <button type="submit">Add to Flight</button>
+    </form>
     <h2>Tickets</h2>
     <% if (flight.tickets.length) { %>
         <table>
@@ -28,6 +42,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- index is faster, but not safe! example, multiple people delete in the same time -->
                 <% flight.tickets.forEach((ticket, tIndex) => { %>
                     <tr>
                         <td><%= ticket.createdAt.toLocaleDateString() %></td>
