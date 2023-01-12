@@ -123,7 +123,28 @@ function createTickets(req, res) {
 function deleteTicket(req, res) {
     Flight.findById(req.params.id)
     .then(flight => {
-        flight.tickets[+(req.params.tIndex)].remove()
+        flight.tickets.id(req.params.ticketId).remove()
+        flight.save()
+        .then(flight => {
+            res.redirect(`/flights/${req.params.id}`)
+        })
+        .catch(error => {
+            console.log(error)
+            res.redirect(`/flights/${req.params.id}`)
+        })
+    })
+    .catch(error => {
+        console.log(error)
+        res.redirect(`/flights/${req.params.id}`)
+    })
+}
+
+function deleteMeal(req, res) {
+    Flight.findById(req.params.id)
+    .then(flight => {
+        //come back check later
+        flight.meals.remove({_id: req.params.mealId})
+        console.log("delete a meal")
         flight.save()
         .then(flight => {
             res.redirect(`/flights/${req.params.id}`)
@@ -168,5 +189,6 @@ export {
     modify,
     createTickets,
     deleteTicket,
+    deleteMeal,
     addToFlight,
 }

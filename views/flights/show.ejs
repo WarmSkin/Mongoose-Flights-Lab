@@ -27,16 +27,16 @@
             </tbody>
                 <tr>
                     <% flight.meals.forEach(meal => { %>
-                <th><%= meal.name %></th>
-                <th>
-                    <form
-                        action="/flights/<%= flight._id %>/<%= meal._id %>?_method=DELETE"
-                        class="delete-form"
-                        method="POST"
-                    >
-                        <button type="submit"> X </button>
-                    </form>
-                </th>
+                        <th><%= meal.name %></th>
+                        <th>
+                        <form
+                            action="/flights/<%= flight._id %>/m/<%= meal._id %>?_method=DELETE"
+                            class="delete-form"
+                            method="POST"
+                        >
+                            <button type="submit"> X </button>
+                        </form>
+                        </th>
                 </tr>
             <% }) %>
         </table>
@@ -62,14 +62,14 @@
             </thead>
             <tbody>
                 <!-- index is faster, but not safe! example, multiple people delete in the same time -->
-                <% flight.tickets.forEach((ticket, tIndex) => { %>
+                <% flight.tickets.forEach((ticket) => { %>
                     <tr>
                         <td><%= ticket.createdAt.toLocaleDateString() %></td>
                         <td><%= ticket.seat %></td>
                         <td><%= ticket.price %></td>
                         <td>
                             <form
-                                action="/flights/<%= flight._id %>/<%= tIndex %>?_method=DELETE"
+                                action="/flights/<%= flight._id %>/<%= ticket._id %>?_method=DELETE"
                                 class="delete-form"
                                 method="POST"
                             >
