@@ -15,12 +15,31 @@
         <div><%= flight.airport %></div>
         <div>Departs:</div>
         <div><%= flight.departs.toISOString().slice(0, 10) %></div>
-        <div>Meals:</div>
-        <ul>
-            <% flight.meals.forEach(meal => { %>
-                <li><%= meal.name %></li>
+        <table>
+            <thead>
+                <tr>
+                    <th>Meal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+                <tr>
+                    <% flight.meals.forEach(meal => { %>
+                <th><%= meal.name %></th>
+                <th>
+                    <form
+                        action="/flights/<%= flight._id %>/<%= meal._id %>?_method=DELETE"
+                        class="delete-form"
+                        method="POST"
+                    >
+                        <button type="submit"> X </button>
+                    </form>
+                </th>
+                </tr>
             <% }) %>
-        </ul>
+        </table>
     </section>
     <form id="add-meal-to-flight" action="/flights/<%= flight._id %>/meals" method="POST">
         <select name="mealId">
