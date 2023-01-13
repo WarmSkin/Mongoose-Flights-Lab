@@ -102,6 +102,11 @@ function modify(req, res) {
 }
 
 function createTickets(req, res) {
+    for (const key in req.body) {
+        //key can be "title", "releaseYear" ...
+        //delete the property if the user doesn't input anything.
+        if(req.body[key] === "") delete req.body[key]
+    }
     Flight.findById(req.params.id)
     .then(flight => {
         flight.tickets.push(req.body)
